@@ -6,18 +6,17 @@ using R2API.Utils;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace CustomRoRMod {
+namespace HuntressMomentum {
 
-	[BepInPlugin("com.Noodle.Mod", "Mod", "1.0.0")]
+	[BepInPlugin("com.doctornoodlearms.huntressmomentum", "Huntress Momentum", "1.0.1")]
 	[BepInDependency(R2API.R2API.PluginGUID)]
 	[R2APISubmoduleDependency(
-		nameof(ItemAPI),
 		nameof(LanguageAPI),
 		nameof(RecalculateStatsAPI),
 		nameof(ContentAddition)
 	)]
 	[NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod,VersionStrictness.EveryoneNeedSameModVersion)]
-	public class Mod : BaseUnityPlugin {
+	public class Plugin : BaseUnityPlugin {
 
 		BuffDef momentum;
 		SkillDef skill;
@@ -93,8 +92,6 @@ namespace CustomRoRMod {
 			GenericSkill passiveSkill = huntressBody.AddComponent<GenericSkill>();
 			passiveSkill.SetFieldValue("_skillFamily", skillFamily);
 
-
-
 			On.RoR2.GlobalEventManager.OnHitAll += GlobalEventManager_OnHitAll;
 			On.RoR2.GenericSkill.Start += GenericSkill_Start;
 
@@ -155,16 +152,16 @@ namespace CustomRoRMod {
 
 		private void GlobalEventManager_OnHitAll(On.RoR2.GlobalEventManager.orig_OnHitAll orig, GlobalEventManager self, DamageInfo damageInfo, GameObject hitObject) {
 
-			orig.Invoke(self, damageInfo, hitObject);
+			if(damageInfo.attacker != null) {
 
-			CharacterBody attackerBody = damageInfo.attacker.GetComponent<CharacterBody>();
-			if(attackerBody) {
-
+				CharacterBody attackerBody = damageInfo.attacker.GetComponent<CharacterBody>();
 				if(attackerBody.HasBuff(momentum) && damageInfo.crit && !clearingBuff) {
 
 					ClearMomentum(attackerBody);
 				}
 			}
+
+			orig.Invoke(self, damageInfo, hitObject);
 		}
 
 		/// Removes all of Momentum stacks DONT TOUCH
