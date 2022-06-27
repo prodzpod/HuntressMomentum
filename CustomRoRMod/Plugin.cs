@@ -8,15 +8,23 @@ using UnityEngine.AddressableAssets;
 
 namespace HuntressMomentum {
 
-	[BepInPlugin("com.doctornoodlearms.huntressmomentum", "Huntress Momentum", "1.0.1")]
+	
+
+
+	[BepInPlugin(pluginGUID, pluginName, pluginVersion)]
 	[BepInDependency(R2API.R2API.PluginGUID)]
 	[R2APISubmoduleDependency(
 		nameof(LanguageAPI),
 		nameof(RecalculateStatsAPI),
 		nameof(ContentAddition)
 	)]
-	[NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod,VersionStrictness.EveryoneNeedSameModVersion)]
+	[NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
 	public class Plugin : BaseUnityPlugin {
+
+		public const string pluginGUID = "com.doctornoodlearms.huntressmomentum";
+		public const string pluginAuthor = "doctornoodlearms";
+		public const string pluginName = "Huntress Momentum";
+		public const string pluginVersion = "1.0.1";
 
 		BuffDef momentum;
 		SkillDef skill;
