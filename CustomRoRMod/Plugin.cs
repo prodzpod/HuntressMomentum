@@ -8,24 +8,33 @@ using UnityEngine.AddressableAssets;
 
 namespace HuntressMomentum {
 
-	[BepInPlugin("com.doctornoodlearms.huntressmomentum", "Huntress Momentum", "1.0.1")]
+	
+
+
+	[BepInPlugin(pluginGUID, pluginName, pluginVersion)]
 	[BepInDependency(R2API.R2API.PluginGUID)]
 	[R2APISubmoduleDependency(
 		nameof(LanguageAPI),
 		nameof(RecalculateStatsAPI),
 		nameof(ContentAddition)
 	)]
-	[NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod,VersionStrictness.EveryoneNeedSameModVersion)]
+	[NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
 	public class Plugin : BaseUnityPlugin {
+
+		public const string pluginGUID = "com.doctornoodlearms.huntressmomentum";
+		public const string pluginAuthor = "doctornoodlearms";
+		public const string pluginName = "Huntress Momentum";
+		public const string pluginVersion = "1.0.1";
 
 		BuffDef momentum;
 		SkillDef skill;
 		UnlockableDef unlockable;
 
-		readonly float maxStacks = 10;
-		readonly float timerDuration = 1;
+		readonly int maxStacks = 10;
+		readonly float timerDuration = 1.00f;
 
-		float buffTimer = 1;
+		float buffTimer = 1.00f;
+		float timeScalar = 1.00f;
 		bool clearingBuff = false;
 
 		CharacterBody player = null;
@@ -94,6 +103,7 @@ namespace HuntressMomentum {
 
 			On.RoR2.GlobalEventManager.OnHitAll += GlobalEventManager_OnHitAll;
 			On.RoR2.GenericSkill.Start += GenericSkill_Start;
+			On.RoR2.GlobalEventManager.OnCharacterLevelUp += GlobalEventManager_OnCharacterLevelUp;
 
 			RecalculateStatsAPI.GetStatCoefficients += GetStatCoefficients;
 		}
@@ -105,6 +115,14 @@ namespace HuntressMomentum {
 			if(self.skillDef == skill) {
 
 				player = self.characterBody;
+			}
+		}
+
+		private void GlobalEventManager_OnCharacterLevelUp(On.RoR2.GlobalEventManager.orig_OnCharacterLevelUp orig, CharacterBody characterBody) {
+
+			if(characterBody != null) {
+
+				timeScalar = 0.36f * Mathf.Log(characterBody.level) + 1;
 			}
 		}
 
@@ -137,7 +155,7 @@ namespace HuntressMomentum {
 						// Increments the timer
 						if(buffTimer > 0) {
 
-							buffTimer -= Time.deltaTime;
+							buffTimer -= Time.deltaTime * timeScalar;
 						}
 						else {
 
