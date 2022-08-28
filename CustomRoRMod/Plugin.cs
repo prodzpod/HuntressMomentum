@@ -8,9 +8,6 @@ using UnityEngine.AddressableAssets;
 
 namespace HuntressMomentum {
 
-	
-
-
 	[BepInPlugin(pluginGUID, pluginName, pluginVersion)]
 	[BepInDependency(R2API.R2API.PluginGUID)]
 	[R2APISubmoduleDependency(
@@ -24,7 +21,7 @@ namespace HuntressMomentum {
 		public const string pluginGUID = "com.doctornoodlearms.huntressmomentum";
 		public const string pluginAuthor = "doctornoodlearms";
 		public const string pluginName = "Huntress Momentum";
-		public const string pluginVersion = "1.0.1";
+		public const string pluginVersion = "1.1.1";
 
 		BuffDef momentum;
 		SkillDef skill;
@@ -72,18 +69,6 @@ namespace HuntressMomentum {
 
 			ContentAddition.AddSkillDef(skill);
 
-			// Create Momentum Unlockable Definition
-			unlockable = ScriptableObject.CreateInstance<UnlockableDef>();
-			unlockable.cachedName= "NOODLE_HUNTRESSUNLOCK_NAME";
-
-			unlockable.getHowToUnlockString = delegate () {return "Huntress Passive Unlock"; };
-			unlockable.getUnlockedString = delegate () {return "Unlocked Huntress Passive"; };
-			unlockable.nameToken = "NOODLE_HUNTRESSUNLOCK_NAME";
-
-			LanguageAPI.Add(unlockable.nameToken, "Huntress Unlock Name");
-
-			ContentAddition.AddUnlockableDef(unlockable);
-
 			// Create Momentum Skill Family
 			SkillFamily skillFamily = ScriptableObject.CreateInstance<SkillFamily>();
 			(skillFamily as ScriptableObject).name = "HuntressBodyPassiveFamily";
@@ -91,7 +76,8 @@ namespace HuntressMomentum {
 			skillFamily.variants[0] = new SkillFamily.Variant {
 
 				skillDef = skill,
-				unlockableDef = unlockable
+				unlockableName = "",
+				viewableNode = new ViewablesCatalog.Node(skill.skillNameToken, false)
 			};
 
 			ContentAddition.AddSkillFamily(skillFamily);
