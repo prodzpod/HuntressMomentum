@@ -120,7 +120,7 @@ namespace HuntressMomentum {
 				// Check if the player has enough stacks
 				if(sender.GetBuffCount(momentum) >= maxStacks) {
 
-					args.critAdd = 100;
+					args.critAdd += 100;
 				}
 			}
 		}
