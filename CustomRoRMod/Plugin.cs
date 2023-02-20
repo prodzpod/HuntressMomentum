@@ -110,6 +110,7 @@ namespace HuntressMomentum {
 
 				timeScalar = 0.36f * Mathf.Log(characterBody.level) + 1;
 			}
+			orig(characterBody);
 		}
 
 		// Gurantees Crit
