@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HuntressMomentum", "CustomRoRMod\HuntressMomentum.csproj", "{47BCBBC3-D87B-4216-A662-D4235E1F42F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HuntressMomentum", "HuntressMomentum\HuntressMomentum.csproj", "{47BCBBC3-D87B-4216-A662-D4235E1F42F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

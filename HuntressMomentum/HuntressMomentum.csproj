@@ -10,4 +10,16 @@
     <PackageReference Include="R2API" Version="4.4.1" />
     <PackageReference Include="UnityEngine" Version="5.6.1" />
   </ItemGroup>
+
+	<ItemGroup>
+		<None Update="manifest.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="huntressmomentum">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="huntressmomentum.manifest">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 </Project>
