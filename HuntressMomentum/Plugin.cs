@@ -6,24 +6,19 @@ using R2API.Utils;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using JetBrains.Annotations;
-using System;
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using RoR2.UI;
 using System.Security;
 using System.Security.Permissions;
-using MonoMod.Cil;
-using System.Collections.Generic;
 using System.Linq;
-using Mono.Cecil.Cil;
-using HarmonyLib;
-using System.Reflection;
 
 [module: UnverifiableCode]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
-namespace HuntressMomentum {
+namespace HuntressMomentum
+{
 
-	[BepInPlugin(pluginGUID, pluginName, pluginVersion)]
+    [BepInPlugin(pluginGUID, pluginName, pluginVersion)]
 	[BepInDependency(R2API.R2API.PluginGUID)]
 	[NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
 	public class Plugin : BaseUnityPlugin {
@@ -31,11 +26,10 @@ namespace HuntressMomentum {
 		public const string pluginGUID = "com.doctornoodlearms.huntressmomentum";
 		public const string pluginAuthor = "doctornoodlearms";
 		public const string pluginName = "Huntress Momentum";
-		public const string pluginVersion = "2.0.0";
+		public const string pluginVersion = "2.0.1";
 
 		public static ManualLogSource Log;
 		internal static PluginInfo pluginInfo;
-		public static Harmony Harmony;
 		public static ConfigFile Config;
 		private static AssetBundle _assetBundle;
 		public static AssetBundle AssetBundle
@@ -65,7 +59,6 @@ namespace HuntressMomentum {
 		{
 			pluginInfo = Info;
 			Log = Logger;
-			Harmony = new Harmony(pluginGUID);
 			Config = new ConfigFile(System.IO.Path.Combine(Paths.ConfigPath, pluginGUID + ".cfg"), true);
 			MaxStacks = Config.Bind("Balance", "Required Stacks", 10, "Required stacks of momentum to guarantee crit.");
 			BaseDuration = Config.Bind("Balance", "Base Duration per Stack", 1f, "Required seconds needed to gain a stack.");
@@ -110,6 +103,7 @@ namespace HuntressMomentum {
 			LanguageAPI.Add(skill.keywordTokens[0], $"<style=cKeywordName>Momentum</style><style=cSub>At {MaxStacks.Value} stacks, the next attack is a <style=\"cIsDamage\">Critical Strike</style>.</style>");
 
 			ContentAddition.AddSkillDef(skill);
+            GameObject huntressBody = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Huntress/HuntressBody.prefab").WaitForCompletion();
 
 			// Create Momentum Skill Family
 			SkillFamily skillFamily = ScriptableObject.CreateInstance<SkillFamily>();
@@ -123,35 +117,25 @@ namespace HuntressMomentum {
 			ContentAddition.AddSkillFamily(skillFamily);
 
 			// Add Momentum Skill onto Huntress
-			GameObject huntressBody = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Huntress/HuntressBody.prefab").WaitForCompletion();
 			skillContainer = huntressBody.AddComponent<GenericSkill>();
 			skillContainer._skillFamily = skillFamily;
 
-			Harmony.PatchAll(typeof(QuestionablyPatchUnityItself));
-			IL.RoR2.UI.LoadoutPanelController.Rebuild += il =>
+			On.RoR2.UI.LoadoutPanelController.Rebuild += (orig, self) =>
 			{
-				ILCursor c = new ILCursor(il);
-				c.GotoNext(x => x.MatchStloc(1));
-				c.EmitDelegate<Func<List<GenericSkill>, List<GenericSkill>>>(list =>
-				{
-					if (list.Remove(skillContainer)) list.Insert(0, skillContainer);
-					return list;
-				});
-			};
-		}
+				orig(self);
+				if (self.currentDisplayData.bodyIndex == BodyCatalog.FindBodyIndex("HuntressBody"))
+                {
+                    var passive = self.rows.FirstOrDefault(x =>
+					{
+						string token = x?.rowPanelTransform?.Find("LabelContainer")?.Find("SlotLabel")?.GetComponent<LanguageTextMeshController>()?.token ?? "";
+						Log.LogDebug("Token: " + token);
+						return token == "LOADOUT_SKILL_MISC" || token.ToLower() == "passive";
+                    });
+					if (passive != default) passive.rowPanelTransform.SetAsFirstSibling();
+                }
+            };
 
-		[HarmonyPatch(typeof(GameObject), nameof(GameObject.GetComponentsInternal))]
-		public class QuestionablyPatchUnityItself // this makes passive go on top like vanilla
-        {
-			public static void Postfix(Type type, ref Array __result)
-            {
-				if (type != typeof(GenericSkill) || (__result?.Length ?? 0) == 0) return;
-				List<GenericSkill> list = (__result as GenericSkill[]).ToList();
-				if (list.Remove(skillContainer)) list.Insert(0, skillContainer);
-				__result = list.ToArray();
-            }
 		}
-
 		public class SkillMomentum : SkillDef
 		{
             public override BaseSkillInstanceData OnAssigned([NotNull] GenericSkill skillSlot)
