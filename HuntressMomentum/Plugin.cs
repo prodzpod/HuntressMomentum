@@ -31,7 +31,7 @@ namespace HuntressMomentum {
 		public const string pluginGUID = "com.doctornoodlearms.huntressmomentum";
 		public const string pluginAuthor = "doctornoodlearms";
 		public const string pluginName = "Huntress Momentum";
-		public const string pluginVersion = "1.2.0";
+		public const string pluginVersion = "2.0.0";
 
 		public static ManualLogSource Log;
 		internal static PluginInfo pluginInfo;

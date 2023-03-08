@@ -1,8 +1,8 @@
 {
-  "name": "HuntressMomentum",
-  "version_number": "1.2.0",
-  "website_url": "https://github.com/doctornoodlearms/HuntressMomentum",
-  "description": "Gives Huntress a passive that makes her less reliant on crit items similar to Bandit and Railgunner",
+  "name": "HuntressMomentum2",
+  "version_number": "2.0.0",
+  "website_url": "https://github.com/prodzpod/HuntressMomentum",
+  "description": "Continuation of TeamGoose's HuntressMomentum. Gives huntress a passive.",
   "dependencies": [
     "bbepis-BepInExPack-5.4.1905",
     "RiskofThunder-R2API_Language-1.0.0",

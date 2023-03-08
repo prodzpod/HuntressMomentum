@@ -4,12 +4,79 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="BepInEx.BaseLib" Version="5.4.19" />
-    <PackageReference Include="BepInEx.Core" Version="5.4.19" />
-    <PackageReference Include="R2API" Version="4.4.1" />
-    <PackageReference Include="UnityEngine" Version="5.6.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="libs\**" />
+		<EmbeddedResource Remove="libs\**" />
+		<None Remove="libs\**" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="BepInEx.Core" Version="5.4.19" />
+		<PackageReference Include="BepInEx.BaseLib" Version="5.4.19" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="com.unity.multiplayer-hlapi.Runtime">
+			<HintPath>..\..\libs\com.unity.multiplayer-hlapi.Runtime-nstrip.dll</HintPath>
+		</Reference>
+		<Reference Include="HGCSharpUtils">
+			<HintPath>..\..\libs\HGCSharpUtils-nstrip.dll</HintPath>
+		</Reference>
+		<Reference Include="Inferno">
+			<HintPath>..\..\libs\Inferno-nstrip.dll</HintPath>
+		</Reference>
+		<Reference Include="LegacyResourcesAPI">
+			<HintPath>..\..\libs\LegacyResourcesAPI-nstrip.dll</HintPath>
+		</Reference>
+		<Reference Include="LittleGameplayTweaks">
+			<HintPath>..\..\libs\LittleGameplayTweaks-nstrip.dll</HintPath>
+		</Reference>
+		<Reference Include="MMHOOK_RoR2">
+			<HintPath>..\..\libs\MMHOOK_RoR2-nstrip.dll</HintPath>
+		</Reference>
+		<Reference Include="R2API.ContentManagement">
+		  <HintPath>..\..\libs\R2API.ContentManagement-nstrip.dll</HintPath>
+		</Reference>
+		<Reference Include="R2API.Core">
+			<HintPath>..\..\libs\R2API.Core-nstrip.dll</HintPath>
+		</Reference>
+		<Reference Include="R2API.Difficulty">
+			<HintPath>..\..\libs\R2API.Difficulty-nstrip.dll</HintPath>
+		</Reference>
+		<Reference Include="R2API.Language">
+			<HintPath>..\..\libs\R2API.Language-nstrip.dll</HintPath>
+		</Reference>
+		<Reference Include="R2API.RecalculateStats">
+		  <HintPath>..\..\libs\R2API.RecalculateStats-nstrip.dll</HintPath>
+		</Reference>
+		<Reference Include="RiskOfOptions">
+			<HintPath>..\..\libs\RiskOfOptions-nstrip.dll</HintPath>
+		</Reference>
+		<Reference Include="RoR2">
+			<HintPath>..\..\libs\RoR2-nstrip.dll</HintPath>
+		</Reference>
+		<Reference Include="RoR2BepInExPack">
+			<HintPath>..\..\libs\RoR2BepInExPack-nstrip.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.Addressables">
+			<HintPath>..\..\libs\Unity.Addressables-nstrip.dll</HintPath>
+		</Reference>
+		<Reference Include="Unity.ResourceManager">
+			<HintPath>..\..\libs\Unity.ResourceManager-nstrip.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine">
+			<HintPath>..\..\libs\UnityEngine-nstrip.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.AssetBundleModule">
+			<HintPath>..\..\libs\UnityEngine.AssetBundleModule-nstrip.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>..\..\libs\UnityEngine.CoreModule-nstrip.dll</HintPath>
+		</Reference>
+		<Reference Include="WellRoundedBalance">
+			<HintPath>..\..\libs\WellRoundedBalance-nstrip.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
 	<ItemGroup>
 		<None Update="manifest.json">
