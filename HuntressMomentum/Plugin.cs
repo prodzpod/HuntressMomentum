@@ -26,7 +26,7 @@ namespace HuntressMomentum
 		public const string pluginGUID = "com.doctornoodlearms.huntressmomentum";
 		public const string pluginAuthor = "doctornoodlearms";
 		public const string pluginName = "Huntress Momentum";
-		public const string pluginVersion = "2.0.1";
+		public const string pluginVersion = "2.0.2";
 
 		public static ManualLogSource Log;
 		internal static PluginInfo pluginInfo;
@@ -128,7 +128,6 @@ namespace HuntressMomentum
                     var passive = self.rows.FirstOrDefault(x =>
 					{
 						string token = x?.rowPanelTransform?.Find("LabelContainer")?.Find("SlotLabel")?.GetComponent<LanguageTextMeshController>()?.token ?? "";
-						Log.LogDebug("Token: " + token);
 						return token == "LOADOUT_SKILL_MISC" || token.ToLower() == "passive";
                     });
 					if (passive != default) passive.rowPanelTransform.SetAsFirstSibling();
@@ -138,13 +137,18 @@ namespace HuntressMomentum
 		}
 		public class SkillMomentum : SkillDef
 		{
+			public static bool assigned = false;
             public override BaseSkillInstanceData OnAssigned([NotNull] GenericSkill skillSlot)
             {
-				On.RoR2.CharacterBody.FixedUpdate += CharacterBody_FixedUpdate;
-				GlobalEventManager.onCharacterLevelUp += GlobalEventManager_onCharacterLevelUp;
-				RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
-				GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
-				Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
+				if (!assigned)
+				{
+					On.RoR2.CharacterBody.FixedUpdate += CharacterBody_FixedUpdate;
+					GlobalEventManager.onCharacterLevelUp += GlobalEventManager_onCharacterLevelUp;
+					RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
+					GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
+					Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
+					assigned = true;
+				}
 				return base.OnAssigned(skillSlot);
             }
 
@@ -186,7 +190,8 @@ namespace HuntressMomentum
 				RecalculateStatsAPI.GetStatCoefficients -= RecalculateStatsAPI_GetStatCoefficients;
 				GlobalEventManager.onServerDamageDealt -= GlobalEventManager_onServerDamageDealt;
 				Run.onRunDestroyGlobal -= Run_onRunDestroyGlobal;
-			}
+				assigned = false;
+            }
 		}
 	}
 }

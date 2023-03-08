@@ -25,6 +25,7 @@ Sprinting gives huntress stacks of **Momentum**, at 10 stacks the next attack is
 - Duration decrease per level (Default: +36% per level)
 
 ## ChangeLog
+- 2.0.2: Bugfix
 - 2.0.1: Bugfix, also saved trout population
 - 2.0.0: Dedicated icons for the skill and buff, bugfixes
 - See [HuntressMomentum 1](https://thunderstore.io/package/TeamGoose/HuntressMomentum/) for previous changelogs.
