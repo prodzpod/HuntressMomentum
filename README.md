@@ -7,7 +7,7 @@ This project is a continuation of [HuntressMomentum](https://thunderstore.io/pac
 </summary>
 <p>
 
-![Image](https://media.discordapp.net/attachments/515678821408571392/1082962435444592701/image.png)
+![Image](https://raw.githubusercontent.com/prodzpod/HuntressMomentum/master/1.png)
 
 </p>
 </details>
@@ -17,7 +17,7 @@ Gives Huntress a passive that makes her less reliant on crit items. Similar to B
 
 Sprinting gives huntress stacks of **Momentum**, at 10 stacks the next attack is a guaranteed crit.
 
-![Image](https://media.discordapp.net/attachments/515678821408571392/1082963792318697472/20230308185100_1.jpg)
+![Image](https://raw.githubusercontent.com/prodzpod/HuntressMomentum/master/2.jpg)
 
 ### Configurability
 - Required stacks for crit (Default: 10)
@@ -25,6 +25,7 @@ Sprinting gives huntress stacks of **Momentum**, at 10 stacks the next attack is
 - Duration decrease per level (Default: +36% per level)
 
 ## ChangeLog
+- 2.0.3: discord image
 - 2.0.2: Bugfix
 - 2.0.1: Bugfix, also saved trout population
 - 2.0.0: Dedicated icons for the skill and buff, bugfixes
